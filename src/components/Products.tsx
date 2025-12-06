@@ -115,15 +115,15 @@ const ProductCard = ({
           <div className={`mt-1 flex flex-col ${isScheduled ? 'text-gray-400' : ''}`}>
             {product.discountPrice && product.discountPrice > 0 && product.discountPrice < product.price ? (
               <>
-                <span className={`text-xs sm:text-sm font-price line-through ${isScheduled ? 'text-gray-400' : 'text-gray-500'}`}>
+                <span className={`text-xs font-price line-through ${isScheduled ? 'text-gray-400' : 'text-gray-500'}`}>
                   {formatPrice(product.price)}
                 </span>
-                <span className={`text-sm sm:text-lg font-price-bold ${isScheduled ? 'text-gray-400' : 'text-gray-900'}`}>
+                <span className={`text-xs sm:text-sm font-price-bold ${isScheduled ? 'text-gray-400' : 'text-gray-900'}`}>
                   {formatPrice(product.discountPrice)}
                 </span>
               </>
             ) : (
-              <span className={`text-sm sm:text-lg font-price-bold ${isScheduled ? 'text-gray-400' : 'text-gray-900'}`}>
+              <span className={`text-xs sm:text-sm font-price-bold ${isScheduled ? 'text-gray-400' : 'text-gray-900'}`}>
                 {formatPrice(product.price)}
               </span>
             )}
