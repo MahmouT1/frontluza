@@ -133,22 +133,31 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      const result = await signIn("google", { callbackUrl: "/" });
+      // Use current origin for callback to work on both desktop and mobile
+      const callbackUrl = typeof window !== 'undefined' 
+        ? window.location.origin + '/' 
+        : process.env.NEXT_PUBLIC_NEXTAUTH_URL || 'https://luzasculture.org';
+      
+      console.log("🔐 Starting Google Sign In, callbackUrl:", callbackUrl);
+      
+      // For mobile, use window.location.href for better compatibility
+      if (typeof window !== 'undefined') {
+        const signInUrl = `/api/auth/signin/google?callbackUrl=${encodeURIComponent(callbackUrl)}`;
+        window.location.href = signInUrl;
+        return;
+      }
+      
+      const result = await signIn("google", { 
+        callbackUrl: callbackUrl,
+        redirect: true 
+      });
+      
       if (result?.error) {
         throw new Error(result.error);
-      }
-
-      if (result?.url) {
-        window.location.href = result.url;
-      } else {
-        onClose();
-        router.push('/');
-        router.refresh();
       }
     } catch (error) {
       console.error("Google sign in error:", error);
       toast.error(error instanceof Error ? error.message : 'Failed to sign in with Google');
-    } finally {
       setIsLoading(false);
     }
   };
@@ -437,8 +446,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             </form>
           )}
 
-          <div className="mt-6 text-center">
-            {isRegisterMode ? (
+          {isRegisterMode && (
+            <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
                 Already have an account?{' '}
                 <button
@@ -449,31 +458,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                   Sign in
                 </button>
               </p>
-            ) : (
-              <p className="text-sm text-gray-600">
-                Don't have an account?{' '}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    e.nativeEvent?.stopImmediatePropagation?.();
-                    console.log("🔄 Button clicked - Switching to Register mode");
-                    switchToRegister(e);
-                  }}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
-                  onContextMenu={(e) => e.preventDefault()}
-                  className="font-medium text-black hover:underline"
-                  style={{ cursor: 'pointer' }}
-                >
-                  Sign up
-                </button>
-              </p>
-            )}
-          </div>
+            </div>
+          )}
 
           {!isRegisterMode && (
             <div className="mt-4 text-center">
