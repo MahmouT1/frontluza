@@ -971,7 +971,7 @@ export default function CheckoutPage() {
                         )}
                         {form.paymentMethod === "Instapay" && (
                           <span className="block mt-1 text-blue-700 font-medium">
-                            (Instapay/Credit/Debit points)
+                            (Instapay points)
                           </span>
                         )}
                       </div>
