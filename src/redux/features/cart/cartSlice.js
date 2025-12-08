@@ -266,10 +266,13 @@ const cartSlice = createSlice({
       let discountTotal = 0;
       if (state.cartItems !== null) {
         state.cartItems.map((cartItem) => {
-          total += (cartItem.originalPrice || cartItem.price) * cartItem.quantity; // Use originalPrice for total if available
+          total += cartItem.price * cartItem.quantity;
           quantity += cartItem.quantity;
-          // Use the stored price (which is already discounted if applicable) for discountTotal
-          discountTotal += cartItem.price * cartItem.quantity;
+          if (cartItem.discountPrice === 0) {
+            discountTotal += cartItem.price * cartItem.quantity;
+          } else {
+            discountTotal += cartItem.discountPrice * cartItem.quantity;
+          }
         });
       }
 
