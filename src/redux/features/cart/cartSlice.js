@@ -175,6 +175,10 @@ const cartSlice = createSlice({
           ? product.discountPrice 
           : product.price;
         state.cartItems[existingProductIndex].price = actualPrice;
+        // Store original price if not already stored
+        if (!state.cartItems[existingProductIndex].originalPrice) {
+          state.cartItems[existingProductIndex].originalPrice = product.price;
+        }
       }
       // IF PRODUCT NOT IN CART
       else {
@@ -187,6 +191,7 @@ const cartSlice = createSlice({
         const newProduct = { 
           ...product, 
           price: actualPrice, // Use discounted price if available
+          originalPrice: product.price, // Store original price for display
           quantity, 
           size,
           points: product.points || 0,
