@@ -207,24 +207,12 @@ export default function CartPage() {
                             </div>
 
                             <div className="text-right">
-                              {item.originalPrice && item.originalPrice > item.price && (
-                                <p className="text-sm font-price text-gray-400 line-through">
-                                  {formatPrice(item.originalPrice * item.quantity)}
-                                </p>
-                              )}
                               <p className="text-2xl font-price-bold text-gray-900">
                                 {formatPrice(item.price * item.quantity)}
                               </p>
-                              {item.originalPrice && item.originalPrice > item.price && (
-                                <p className="text-sm font-price text-gray-500">
-                                  {formatPrice(item.price)} each (discounted)
-                                </p>
-                              )}
-                              {(!item.originalPrice || item.originalPrice === item.price) && (
-                                <p className="text-sm font-price text-gray-500">
-                                  {formatPrice(item.price)} each
-                                </p>
-                              )}
+                              <p className="text-sm font-price text-gray-500">
+                                {formatPrice(item.price)} each
+                              </p>
                             </div>
                           </div>
                         </div>

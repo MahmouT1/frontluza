@@ -915,16 +915,9 @@ export default function CheckoutPage() {
                             ? item.discountPrice 
                             : item.price;
                           return (
-                            <>
-                              <p className="font-price-bold text-gray-900">
-                                {formatPrice(displayPrice * item.quantity)}
-                              </p>
-                              {item.discountPrice && item.discountPrice > 0 && item.discountPrice < item.price && (
-                                <p className="text-xs font-price text-gray-400 line-through">
-                                  {formatPrice(item.price * item.quantity)}
-                                </p>
-                              )}
-                            </>
+                            <p className="font-price-bold text-gray-900">
+                              {formatPrice(displayPrice * item.quantity)}
+                            </p>
                           );
                         })()}
                       </div>
