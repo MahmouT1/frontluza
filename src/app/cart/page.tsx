@@ -212,11 +212,17 @@ export default function CartPage() {
                                 const itemPrice = (item.discountPrice && item.discountPrice > 0 && item.discountPrice < item.price) 
                                   ? item.discountPrice 
                                   : item.price;
+                                const hasDiscount = item.discountPrice && item.discountPrice > 0 && item.discountPrice < item.price;
                                 return (
                                   <>
                                     <p className="text-2xl font-price-bold text-gray-900">
                                       {formatPrice(itemPrice * item.quantity)}
                                     </p>
+                                    {hasDiscount && (
+                                      <p className="text-sm font-price text-gray-500 line-through">
+                                        {formatPrice(item.price * item.quantity)}
+                                      </p>
+                                    )}
                                     <p className="text-sm font-price text-gray-500">
                                       {formatPrice(itemPrice)} each
                                     </p>
