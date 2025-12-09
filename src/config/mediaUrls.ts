@@ -38,9 +38,9 @@ const FALLBACK_URLS = {
  * Format: "folder-name/file-name" (without extension)
  */
 const CLOUDINARY_IDS = {
-  // Videos - Temporarily disabled to use local files
-  videoOne: '', // Public ID extracted from Cloudinary URL - Disabled to use local file
-  headerVideo: '', // Public ID extracted from Cloudinary URL - Disabled to use local file
+  // Videos
+  videoOne: 'VIDEO_ONE_z9xoei', // Public ID extracted from Cloudinary URL
+  headerVideo: 'header_pmuotn', // Public ID extracted from Cloudinary URL
   
   // Images
   banner: '', // e.g., "loza-media/banner"
