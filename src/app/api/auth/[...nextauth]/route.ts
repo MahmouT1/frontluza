@@ -3,16 +3,15 @@ import GoogleProvider from "next-auth/providers/google";
 
 const authOptions: AuthOptions = {
   providers: [
-    // Google OAuth temporarily disabled - uncomment and update .env.local with real values to enable
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID || "dummy-client-id",
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET || "dummy-client-secret",
-    //   authorization: {
-    //     params: {
-    //       prompt: "select_account",
-    //     },
-    //   },
-    // }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || "dummy-client-id",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "dummy-client-secret",
+      authorization: {
+        params: {
+          prompt: "select_account",
+        },
+      },
+    }),
   ],
   secret: process.env.NEXTAUTH_SECRET || "fallback-secret",
   // Ensure proper URL and cookies for mobile
