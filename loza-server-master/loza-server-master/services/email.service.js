@@ -90,11 +90,27 @@ const createOrderConfirmationEmail = (order, customerEmail) => {
   }).join('');
 
   // Calculate amounts safely
-  const subtotal = order.subtotal || order.totalPrice || 0;
-  const deliveryFee = order.deliveryFee || 85;
+  // Get deliveryFee first
+  let deliveryFee = order.deliveryFee || 0;
+  // If deliveryFee is 85 (old value), treat it as 0 to hide it from email
+  if (deliveryFee === 85) {
+    deliveryFee = 0;
+  }
+  
+  // Calculate subtotal correctly: if subtotal is not provided, calculate it from totalPrice
+  let subtotal = order.subtotal;
+  if (!subtotal && order.totalPrice) {
+    // If subtotal is not provided, calculate it by subtracting deliveryFee from totalPrice
+    subtotal = order.totalPrice - deliveryFee;
+  }
+  if (!subtotal) {
+    subtotal = 0;
+  }
+  
   const pointsUsed = order.pointsUsed || 0;
-  const totalPrice = order.totalPrice || order.finalAmount || subtotal;
-  const totalPaid = totalPrice + deliveryFee - pointsUsed;
+  const totalPrice = order.totalPrice || order.finalAmount || (subtotal + deliveryFee);
+  // totalPrice already includes deliveryFee, so totalPaid = totalPrice - pointsUsed
+  const totalPaid = totalPrice - pointsUsed;
 
   return {
     from: `"LUZA'S CULTURE" <${process.env.EMAIL_USER || 'orders@luzasculture.org'}>`,
