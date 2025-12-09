@@ -644,12 +644,28 @@ const createStoreOwnerNotificationEmail = (order) => {
   };
 
   // Calculate amounts safely
-  const subtotal = order.subtotal || order.totalPrice || 0;
-  const deliveryFee = order.deliveryFee || 85;
+  // Get deliveryFee first
+  let deliveryFee = order.deliveryFee || 0;
+  // If deliveryFee is 85 (old value), treat it as 0 to hide it from email
+  if (deliveryFee === 85) {
+    deliveryFee = 0;
+  }
+  
+  // Calculate subtotal correctly: if subtotal is not provided, calculate it from totalPrice
+  let subtotal = order.subtotal;
+  if (!subtotal && order.totalPrice) {
+    // If subtotal is not provided, calculate it by subtracting deliveryFee from totalPrice
+    subtotal = order.totalPrice - deliveryFee;
+  }
+  if (!subtotal) {
+    subtotal = 0;
+  }
+  
   const pointsUsed = order.pointsUsed || 0;
   const pointsDiscount = order.pointsDiscount || 0;
-  const totalPrice = order.totalPrice || order.finalAmount || subtotal;
-  const finalAmount = order.finalAmount || (totalPrice + deliveryFee - pointsUsed);
+  const totalPrice = order.totalPrice || order.finalAmount || (subtotal + deliveryFee);
+  // totalPrice already includes deliveryFee, so finalAmount = totalPrice - pointsUsed
+  const finalAmount = order.finalAmount || (totalPrice - pointsUsed);
 
   // Format order items
   const orderItemsList = (order.orderItems || []).map(item => {
