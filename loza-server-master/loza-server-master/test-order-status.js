@@ -20,11 +20,6 @@ async function testOrderStatus() {
         Authorization: `Bearer ${token}`, // Include the token in the request
       },
     });
-  try {
-    console.log('Testing order status functionality...');
-    
-    // First, get all orders to see what's available
-    const ordersResponse = await axios.get(`${BASE_URL}/orders/get-orders`);
     console.log('✅ Orders retrieved successfully:', ordersResponse.data.orders.length, 'orders found');
     
     if (ordersResponse.data.orders.length > 0) {
